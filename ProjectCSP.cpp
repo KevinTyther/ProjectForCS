@@ -13,7 +13,7 @@ string passwd;
 
 int main()
 {
-    Login();
+    Menu();
 }
 
 void Login()
