@@ -1,20 +1,62 @@
-// ProjectCSP.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <string>
+#include <windows.h>
+
+using namespace std;
+
+void Login();
+void askForSecretPassword();
+
+bool login = true;
+string usrname;
+string passwd;
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    Login();
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+void Login()
+{
+    while (login)
+    {
+        system("cls");
+        cout << "Username: ";
+        cin >> usrname;
+        askForSecretPassword();
+    }
+}
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+void askForSecretPassword(void) 
+{
+    passwd = "";
+    while (!GetAsyncKeyState(VK_RETURN) & 1)
+    {
+        for (int i = 0x30; i < 0x5A; i++)
+        {
+            if (GetAsyncKeyState(i) & 1)
+            {
+                if (i >= 0x41 && i <= 0x5A && ((GetKeyState(VK_CAPITAL) & 1) == 0 || GetAsyncKeyState(VK_SHIFT) & 1))
+                    passwd += ((char)i + 32);
+                else
+                    passwd += (char)i;
+
+                cout << "*";
+                Sleep(50);
+            }
+            else if (GetAsyncKeyState(VK_BACK) & 1)
+            {
+                passwd.erase(passwd.size() - 1);
+                system("cls");
+                for (int i = 0; i < passwd.size(); i++)
+                {
+                    cout << '*';
+                }
+                Sleep(50);
+            }
+        }
+    }
+    cout << passwd;
+    Sleep(10000);
+};
