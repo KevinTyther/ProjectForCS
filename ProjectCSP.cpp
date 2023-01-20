@@ -1,56 +1,123 @@
 #include <iostream>
+#include <Windows.h>
 #include <string>
-#include <windows.h>
+#include <conio.h>
 
 using namespace std;
 
-void Login();
+std::string passwd;
+string passwdChecker;
+std::string usrname;
+string usrChecker;
 
-bool login = true;
-string usrname;
-string passwd;
+char c;
 
+int pin;
+int pinChecker;
+
+bool loginScreen;
+
+void usrVaildator();
+void Password();
+void Username();
+void Pincode();
 
 int main()
 {
-    Menu();
+	cout << "Create a banking profile\n\n";
+	cout << "Create a Username: ";
+	Username();
+	cout << "Create a Password: ";
+	Password();
+	system("cls");
+	Pincode();
+	system("cls");
+	cout << "Thank you for chosing ____ Banking\n\n";
+	system("pause");
+	loginScreen = true;
+	system("cls");
+	while (loginScreen)
+	{
+		system("cls");
+		cout << "Username: ";
+		cin >> usrname;
+		cout << "Password: ";
+		c = ' ';
+		passwd = "";
+		while (c != 13) // Enter Key
+		{
+			c = _getch();
+			if (c != 13)
+			{
+				passwd += c;
+				cout << "";
+			}
+		}
+		usrVaildator();
+	}
 }
 
-void Login()
+void usrVaildator()
 {
-    while (login)
-    {
-        system("cls");
-        cout << "Username: ";
-        cin >> usrname;
-        cout << "Password: ";
-        while (!GetAsyncKeyState(VK_RETURN) & 1)
-        {
-            for (int i = 0x30; i < 0x5A; i++)
-            {
-                if (GetAsyncKeyState(i) & 1)
-                {
-                    if (i >= 0x41 && i <= 0x5A && ((GetKeyState(VK_CAPITAL) & 1) == 0 || GetAsyncKeyState(VK_SHIFT) & 1))
-                        passwd += ((char)i + 32);
-                    else
-                        passwd += (char)i;
+	if (usrname == usrChecker)
+	{
+		if (passwd == passwdChecker)
+		{
+			loginScreen = false;
+		}
+		else
+		{
+			cout << "\nUsername or password is incorrect";
+			system("pause");
+		}
+		
+	}
+	else
+	{
+		cout << "\nUsername or password is incorrect";
+		system("pause");
+	}
+}
 
-                    cout << "*";
-                    Sleep(50);
-                }
-                else if (GetAsyncKeyState(VK_BACK) & 1)
-                {
-                    passwd.erase(passwd.size() - 1);
-                    system("cls");
-                    for (int i = 0; i < passwd.size(); i++)
-                    {
-                        cout << '*';
-                    }
-                    Sleep(50);
-                }
-            }
-        }
-        cout << passwd;
-        Sleep(10000);
-    }
+void Username()
+{
+	cin >> usrname;
+	usrChecker = usrname;
+}
+
+void Password()
+{
+	c = ' ';
+	passwd = "";
+	while (c != 13) // Enter Key
+	{
+		c = _getch();
+		if (c != 13)
+		{
+			passwd += c;
+			cout << "";
+		}
+	}
+	passwdChecker = passwd;
+}
+
+void Pincode()
+{
+	bool pinNum = true;
+	while (pinNum)
+	{
+		system("cls");
+		cout << "Create a Pin for account: ";
+		cin >> pin;
+		if (pin >= 10000)
+		{
+			cout << "Not a valid length\n";
+			system("pause");
+		}
+		if (pin <= 999)
+		{
+			cout << "Not a valid length\n";
+			system("pause");
+		}
+	}
 }
