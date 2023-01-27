@@ -14,6 +14,7 @@ char c;
 int i = 0;
 int m = 0;
 int counter = 0;
+int transactionsRecorded = 0;
 
 int pin;
 int pinChecker;
@@ -51,6 +52,14 @@ void Password();
 void Username();
 void Pincode();
 void BankMenu();
+
+void pushDownTransactions() {
+	for (int z = 0; z < 5; z++) {
+		transactions[z + 1] = transactions[z];
+	}
+	struct Transaction resetTransaction;
+	transactions[0] = resetTransaction;
+}
 
 int main()
 {
@@ -121,9 +130,11 @@ void BankMenu()
 			else
 			{
 				counter = counter + 1;
+				transactionsRecorded = counter;
 			}
 			if (counter >= (sizeof(transactions) / sizeof(Transaction))) {
 				counter = 0;
+				pushDownTransactions();
 			}
 				struct Transaction transact;
 				transact.amount = deposit;
@@ -182,6 +193,7 @@ void BankMenu()
 				else
 				{
 					counter = counter + 1;
+					transactionsRecorded = counter;
 				}
 				for (i; i <= test; i++)
 				{
@@ -221,7 +233,7 @@ void BankMenu()
 			while (transactionMenu)
 			{
 				system("cls");
-				for (int k = 0; k <= counter; k++)
+				for (int k = 0; k <= transactionsRecorded; k++)
 				{
 					/*
 					if (counter >= 1)
