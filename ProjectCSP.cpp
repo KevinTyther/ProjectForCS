@@ -99,7 +99,7 @@ int main()
 
 void BankMenu()
 {
-	while (BankMenu)
+	while (bankMenu)
 	{
 		pinLock = false;
 		system("cls");
@@ -184,10 +184,9 @@ void BankMenu()
 			else
 			{
 				balance = balance - withdraw;
-				lastAction = withdraw;
-				if (firDep)
+				lastAction = deposit;
+				if (firDep == true)
 				{
-					counter = 0;
 					firDep = false;
 				}
 				else
@@ -195,24 +194,21 @@ void BankMenu()
 					counter = counter + 1;
 					transactionsRecorded = counter;
 				}
-				for (i; i <= test; i++)
-				{
-					struct Transaction transact;
-					transact.amount = lastAction;
-					transact.moneyMovement = " withdraw ";
-					transactions[i] = transact;
-					//transaction[i] = lastAction;
+				if (counter >= (sizeof(transactions) / sizeof(Transaction))) {
+					counter = 0;
+					pushDownTransactions();
 				}
-				if (i > 5)
-				{
-					i = 0;
-				}
+				struct Transaction transact;
+				transact.amount = withdraw;
+				transact.moneyMovement = " withdraw ";
+				transact.updated = true;
+				transactions[counter] = transact;
 				test = test + 1;
 				if (test > 5)
 				{
 					test = 1;
 				}
-				for (m = 0; m <= test2; m++)
+				for (m; m <= test2; m++)
 				{
 					MM[m] = moneyMovement;
 				}
@@ -235,27 +231,6 @@ void BankMenu()
 				system("cls");
 				for (int k = 0; k <= transactionsRecorded; k++)
 				{
-					/*
-					if (counter >= 1)
-					{
-						cout << usrChecker << MM[0] << "$" << transaction[0] << endl;
-						if (counter >= 2)
-						{
-							cout << usrChecker << MM[1] << "$" << transaction[1] << endl;
-							if (counter >= 3)
-							{
-								cout << usrChecker << MM[2] << "$" << transaction[2] << endl;
-								if (counter >= 4)
-								{
-									cout << usrChecker << MM[3] << "$" << transaction[3] << endl;
-									if (counter >= 5)
-									{
-										cout << usrChecker << MM[4] << "$" << transaction[4] << endl;
-									}
-								}
-							}
-						}
-					}*/
 					Transaction transact = transactions[k];
 					cout << usrChecker << transact.moneyMovement << "$" << transact.amount << endl;
 				}
